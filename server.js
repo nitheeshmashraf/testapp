@@ -19,6 +19,24 @@ app.use(express.static(path.join(__dirname, 'dist')));
 // Set our api routes
 app.use('/api', api);
 
+
+// test
+app.param('id', function (req, res, next, id) {
+  console.log('CALLED ONLY ONCE');
+  next();
+});
+
+app.get('/posts/:id', function (req, res, next) {
+  console.log('although this matches');
+  next();
+});
+
+app.get('/posts/:id', function (req, res) {
+  console.log('and this matches too');
+  res.end();
+});
+
+
 // Catch all other routes and return the index file
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist/index.html'));
